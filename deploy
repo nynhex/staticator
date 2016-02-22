@@ -1,0 +1,91 @@
+#!/bin/sh
+
+DOMAIN=go-beyond.org
+
+SSHKEYFILE="$HOME/.ssh/id_rsa.pub"
+SCRIPT="startup.sh"
+
+OS=140
+PLAN=29
+
+echodo() {
+	echo "$@"
+	# shellcheck disable=SC2048
+	$*
+}
+
+if [ -z "$VULTR_API_KEY" ]; then
+	echo 'VULTR_API_KEY not set.'
+	exit 1
+fi
+
+if [ ! -r "$SSHKEYFILE" ]; then
+	echo "$SSHKEYFILE not found."
+	exit 1
+fi
+
+# For portability with BSD, Linux, and hopefully Mac OS X
+md5hash() {
+	FILE=$1
+	(md5 -r "$FILE" 2> /dev/null || md5sum "$FILE") | awk '{print $1}'
+}
+
+KEYNAME=$(md5hash "$SSHKEYFILE")
+
+getkeyid() {
+	# Not sure how they generate this
+	vultr sshkeys | grep "$KEYNAME" | awk '{print $1}'
+}
+
+VULTRSSHKEYID=$(getkeyid)
+
+# Probably no key
+if [ -z "$VULTRSSHKEYID" ]; then
+	echo 'Notice: Uploading SSH key to vultr'
+	vultr sshkey create -n "$KEYNAME" -f "$SSHKEYFILE"
+	sleep 1
+	VULTRSSHKEYID=$(getkeyid)
+fi
+
+# Check if something went wrong
+if [ -z "$VULTRSSHKEYID" ]; then
+	echo 'SSH key not found on vultr.'
+	exit 1
+fi
+
+SCRIPTNAME="$(md5hash $SCRIPT)"
+getscriptid() {
+	vultr scripts | grep "$SCRIPTNAME" | awk '{print $1}'
+}
+
+VULTRSCRIPTID=$(getscriptid)
+
+# Probably no script
+if [ -z "$VULTRSCRIPTID" ]; then
+	echo 'Notice: Uploading startup script to vultr'
+	vultr script create -n "$SCRIPTNAME" -f "$SCRIPT"
+	sleep 1
+	VULTRSCRIPTID=$(getscriptid)
+fi
+
+# Check if something went wrong
+if [ -z "$VULTRSCRIPTID" ]; then
+	echo 'Startup script not found on vultr.'
+	exit 1
+fi
+
+vultrcreate() {
+	NAME=$1
+	PLAN=$2
+	REGION=$3
+	echodo vultr server create -n "$NAME" -r "$REGION" -p "$PLAN" -o "$OS" \
+	-k "$VULTRSSHKEYID" -s "$VULTRSCRIPTID" --ipv6=true
+}
+
+# Silicon Valley, Dallas, Atlanta
+for region in 12 3 6; do
+	NAME=$DOMAIN-$(date +%s)
+	vultrcreate "$NAME" "$PLAN" "$region"
+done
+
+echo 'Finished, servers may take some time to come online.'
