@@ -62,7 +62,7 @@ echo "\$ORIGIN $DOMAIN.
                 300 )
 
         NS      $DOMAIN.
-        MX      10 onza.mythic-beasts.com.
+        MX      10 mx.mythic-beasts.com.
         AAAA    $IP6
         A       $IP4
 www     CNAME   $DOMAIN.
