@@ -63,6 +63,7 @@ echo "\$ORIGIN $DOMAIN.
 
         NS      $DOMAIN.
         MX      10 mx.mythic-beasts.com.
+        TXT     "v=spf1 include:_spf.mythic-beasts.com -all"
         AAAA    $IP6
         A       $IP4
 www     CNAME   $DOMAIN.
