@@ -82,8 +82,8 @@ vultrcreate() {
 	-k "$VULTRSSHKEYID" -s "$VULTRSCRIPTID" --ipv6=true
 }
 
-# Silicon Valley, Dallas, Atlanta
-for region in 12 3 6; do
+# Dallas, Atlanta
+for region in 3 6; do
 	NAME=$DOMAIN-$(date +%s)
 	vultrcreate "$NAME" "$PLAN" "$region"
 done
