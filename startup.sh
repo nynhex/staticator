@@ -76,12 +76,19 @@ progress 'Putting updater in cron'
 
 echo "#!/bin/sh
 
-rm -rf /var/tmp/predeploy
+set -e
+
+rm -rf /var/tmp/predeploy || true
 mkdir /var/tmp/predeploy
 
 # rsync is atomic per-file but tar is not, so we do this.
 # Only rsync if at least tar exited cleanly.
-fetch -qo - $REPO | tar xzf - -C /var/tmp/predeploy --strip-components $STRIPCOMPONENTS && rsync --delete-after -r /var/tmp/predeploy/ /var/tmp/deploy/
+TEMP=/tmp/tar.gz
+fetch -qo $TEMP $REPO
+tar xzf $TEMP -C /var/tmp/predeploy --strip-components $STRIPCOMPONENTS
+rm $TEMP
+
+rsync --delete-after -r /var/tmp/predeploy/ /var/tmp/deploy/
 " > /root/updater
 
 chmod 700 /root/updater
