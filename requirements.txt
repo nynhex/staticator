@@ -1,2 +1,1 @@
-namesilo
-vultr
+-e git+https://github.com/kolanos/namesilo.git#egg=namesilo

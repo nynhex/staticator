@@ -1,1 +1,5 @@
 .pip
+hidden_service/private_key
+config.json
+src
+*.pyc
