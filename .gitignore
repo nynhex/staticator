@@ -3,3 +3,5 @@ hidden_service/private_key
 config.json
 src
 *.pyc
+id_rsa
+bip32

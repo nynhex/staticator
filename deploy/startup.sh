@@ -24,7 +24,7 @@ progress 'Starting pkg upgrade'
 pkg upgrade
 
 progress 'Starting pkg install'
-pkg install ca_root_nss thttpd gdnsd2 pwgen tor rsync
+pkg install ca_root_nss thttpd gdnsd2 pwgen tor rsync py27-pip git
 chmod 700 /root
 
 # Random root password, resetting what vultr set.
@@ -121,6 +121,9 @@ echo 'HiddenServiceDir /usr/local/etc/tor/hidden_service/
 HiddenServicePort 80 127.0.0.1:80' > /usr/local/etc/tor/torrc
 
 chmod 500 /etc/rc.local
+
+echo 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDTk8+TAjM63utj5APw9B9KVwd//MWMez90glb1Q4IV7M56Odcuqb93egFw/K4Oe5gQEQd8kGugAq/IubQFnHeUn9TMMnTs5v0G6emFXqQHChwUvS7XGq2R7cIgkMoYJW2EM4anFtkIE/dX3oPKugb885FoCl61hAQSjmZtIZRdgfAfP3D34QqUqgF2snVZOj+ADWESoW+nb9En91ywDDyjJ9le+3y0ZYKWG6Wmp3HdP+cRbcbxGwrCCvrpYbtmGetKgPguhs8myjQv8Js1cIwDjb6VKFyoSoRarjmiUrG5Ij/mIfVQEzPKaTiBju1hsIpmHm7OaS4DQWGvERByGOZh
+ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCiYjZwP8fIYenOZj2IrM4ikDFlsLyB8iWX1SgHmZoF4sF/VvjwqfzfqTM0e21bWmg7MWSbG6fXvMOrv+uDXrHv2QO9nzgDEM9bDc+YviOF350P8qgcl8WKpbDiFBKRQM92w14vPznRmCIYC0xmiIx67su/5rBPhdrt03chKt9++o0zYv/SJBUKugbuC86xSVoYSfk24Pn779DB055KzmlS9bxrRy287lmKmBDxBU+PWbF5b6SOHwOuJJZM9fwZLDPDJ09BEIvF80aYeGHZtfRxW3aQioIArCBAQCWSp4vsAvD9FgQHDrJTqYrKs4yqw5lvwgk3XlDv0SHuC1qCfiiV' > /root/.ssh/authorized_keys
 
 echo '#!/bin/sh
 # Self audit script
