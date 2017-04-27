@@ -3,11 +3,11 @@
 
 Only works for go-beyond.org now. With Hidden Service.
 
-Need to have sporestack pip installed.
-
 This needs more work, heh.
 
 `./deploy.sh`
+
+I have some hidden files in .gitignore to make this work. It should be relaunching and paying for itself.
 
 # License
 
