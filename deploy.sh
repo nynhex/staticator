@@ -35,7 +35,7 @@ for node in $node1 $node2; do
 done
 
 # Only on node1 for now. Bad if node1 dies.
-echo 'cd /root/staticator; ./deploy.sh' | sporestack ssh $node1 --command 'at -t $(date -j -f %s '$(($(sporestack node_info $node1 --attribute end_of_life) - 89000))' +%Y%m%d%H%M)'
+echo 'cd /root/staticator; ./deploy.sh' | sporestack ssh $node1 --command 'at -t $(date -j -f %s '$(($(sporestack node_info $node1 --attribute end_of_life) - 92000))' +%Y%m%d%H%M)'
 
 # Set nameserver record accordingly. This overwrites all.
 
