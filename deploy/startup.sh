@@ -1,5 +1,7 @@
 #!/bin/sh
 
+# TODO: Add set -e
+
 DOMAIN=go-beyond.org
 HOSTMASTER=sega01
 
@@ -18,7 +20,7 @@ export PATH=/sbin:/bin:/usr/sbin:/usr/bin:/usr/local/sbin:/usr/local/bin
 
 # FreeBSD upgrades..
 freebsd-update fetch --not-running-from-cron
-freebsd-update install --not-running-from-cron
+freebsd-update install --not-running-from-cron || true
 
 progress 'Starting pkg upgrade'
 pkg upgrade
