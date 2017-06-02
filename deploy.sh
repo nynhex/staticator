@@ -9,8 +9,8 @@ set -e
 DAYS=8
 
 # Need to make this US-AUTO or just AUTO at some point when I add that in...
-DCID1=1 # New Jersey
-DCID2=5 # Los Angeles
+DCID1=12 # New Jersey
+DCID2=3 # Los Angeles
 
 WALLET_COMMAND="walkingliberty send $(cat bip32)"
 
